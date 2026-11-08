@@ -434,4 +434,61 @@ select:focus-visible {
 
     margin-bottom: 25px;
 }
+.welcome-row::after {
+    content: "";
+    position: absolute;
 
+    width: 200px;
+    height: 200px;
+    right: 30px;
+    top: -100px;
+
+    border: 1px solid rgba(244,123,53,0.2);
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 0 20px rgba(244,123,53,0.03),
+        0 0 0 45px rgba(244,123,53,0.03);
+}
+.welcome-row h2 {
+    position: relative;
+    z-index: 1;
+
+    max-width: 440px;
+
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(23px, 3vw, 32px);
+    line-height: 1.2;
+    margin: 8px 0;
+}
+.welcome-row h2 em,
+.page-intro h2 em {
+    color: var(--orange-dark);
+    font-style: normal;
+}
+.muted {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.welcome-row .muted {
+    color: #a2a49a;
+}
+.flame-art {
+    position: relative;
+    z-index: 1;
+
+    color: var(--orange);
+    font-size: 85px;
+
+    animation: flameFloat 3s ease-in-out infinite;
+}
+@keyframes flameFloat {
+    0%, 100% {
+        transform: translateY(0) rotate(-5deg);
+    }
+
+    50% {
+        transform: translateY(-9px) rotate(5deg);
+    }
+}

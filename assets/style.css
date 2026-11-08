@@ -407,4 +407,31 @@ select:focus-visible {
     }
 }
 
+/* pos layout */
+.pos-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 350px;
+    gap: 25px;
+    align-items: start;
+}
+.menu-panel {
+    min-width: 0;
+}
+.welcome-row {
+    position: relative;
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    min-height: 165px;
+    padding: 27px 30px;
+
+    border-radius: var(--radius);
+    background: var(--dark);
+    color: white;
+
+    margin-bottom: 25px;
+}
 

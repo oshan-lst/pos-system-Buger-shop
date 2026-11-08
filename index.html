@@ -1,520 +1,456 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>pos-system</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>GrillMaster POS | Burger House</title>
 
-    <!-- Bootstrap Icons -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/style.css">
 </head>
-
 <body>
-    
+
+<div class="app-layout">
 
     <!-- SIDEBAR -->
     <aside class="sidebar" id="sidebar">
 
-        <a class="brand" href="#" aria-label="GrillMaster home">
-            <span class="brand-mark">G<span>M</span></span>
+        <div class="brand">
+            <div class="brand-icon">
+                <i class="bi bi-fire"></i>
+            </div>
+            <div>
+                <h4>GrillMaster</h4>
+                <small>BURGER HOUSE POS</small>
+            </div>
+        </div>
 
-            <span class="brand-copy">
-                <b>GRILLMASTER</b>
-                <small>BURGER HOUSE · POS</small>
-            </span>
-        </a>
+        <div class="sidebar-label">MAIN MENU</div>
 
-        <div class="side-label">WORKSPACE</div>
-
-        <nav class="nav-list" aria-label="Main navigation">
-
-            <button class="nav-link active" data-view="pos">
-                <span>▦</span> Point of Sale <kbd>01</kbd>
+        <nav class="nav-menu">
+            <button class="nav-link active" onclick="showPage('dashboard', this)">
+                <i class="bi bi-grid-1x2"></i> Dashboard
             </button>
 
-            <button class="nav-link" data-view="products">
-                <span>♨</span> Products <kbd>02</kbd>
+            <button class="nav-link" onclick="showPage('pos', this)">
+                <i class="bi bi-bag-check"></i> Point of Sale
             </button>
 
-            <button class="nav-link" data-view="customers">
-                <span>♙</span> Customers <kbd>03</kbd>
+            <button class="nav-link" onclick="showPage('products', this)">
+                <i class="bi bi-box-seam"></i> Products
             </button>
 
-            <button class="nav-link" data-view="orders">
-                <span>▤</span> Orders <kbd>04</kbd>
+            <button class="nav-link" onclick="showPage('customers', this)">
+                <i class="bi bi-people"></i> Customers
             </button>
 
+            <button class="nav-link" onclick="showPage('orders', this)">
+                <i class="bi bi-receipt"></i> Orders
+            </button>
         </nav>
 
         <div class="sidebar-bottom">
-
-            <div class="open-status">
-                <i></i>
-                <span>
-                    <b>Store is open</b>
-                    <small>Ready to take orders</small>
-                </span>
-            </div>
-
             <div class="staff-card">
-                <div class="avatar">GM</div>
-
-                <span>
-                    <b>Store Manager</b>
-                    <small>Administrator</small>
-                </span>
-
-                <span class="more">•••</span>
+                <div class="staff-avatar">GM</div>
+                <div>
+                    <strong>Admin</strong>
+                    <small>Store Manager</small>
+                </div>
             </div>
-
-            <small class="side-foot">
-                GRILLMASTER POS <span>v1.0</span>
-            </small>
-
         </div>
     </aside>
 
-    <!-- MAIN CONTENT -->
-    <main class="main-area">
+    <!-- MAIN -->
+    <main class="main-content">
 
-        <!-- TOPBAR -->
         <header class="topbar">
-
             <div class="topbar-left">
-
-                <button class="mobile-menu" id="mobileMenu" aria-label="Toggle menu">
-                    ☰
+                <button class="mobile-menu-btn" onclick="toggleSidebar()">
+                    <i class="bi bi-list"></i>
                 </button>
-
                 <div>
-                    <p class="eyebrow" id="dateLabel">TODAY</p>
-
-                    <h1 id="pageTitle">
-                        Point of Sale <span class="live-dot"></span>
-                    </h1>
+                    <h5 id="pageTitle">Dashboard</h5>
+                    <span>Welcome to GrillMaster POS</span>
                 </div>
-
             </div>
 
-            <div class="top-actions">
-
-                <div class="service-chip">
-                    <span>●</span> Dine-in service
-                </div>
-
-                <button class="icon-btn" id="helpBtn" title="Help">?</button>
-
-                <div class="top-avatar">GM</div>
-
+            <div class="topbar-right">
+                <span class="live-badge">
+                    <span class="live-dot"></span> Store Open
+                </span>
+                <div class="topbar-clock" id="currentDate"></div>
             </div>
-
         </header>
 
-        <!-- POINT OF SALE -->
-        <section class="view active" id="view-pos">
+        <div class="content-area">
 
-            <div class="pos-layout">
+            <!-- DASHBOARD -->
+            <section id="dashboardPage" class="page-section active-page">
 
-                <!-- MENU PANEL -->
-                <div class="menu-panel">
-
-                    <div class="welcome-row">
-
-                        <div>
-                            <p class="eyebrow orange">FRESH OFF THE GRILL</p>
-
-                            <h2>
-                                What are we <em>serving</em> today?
-                            </h2>
-
-                            <p class="muted">
-                                Pick your favourites and build an order.
-                            </p>
-                        </div>
-
-                        <div class="flame-art" aria-hidden="true">♨</div>
-
+                <div class="page-heading">
+                    <div>
+                        <h2>Dashboard Overview</h2>
+                        <p>Here's what's happening at your burger house.</p>
                     </div>
-
-                    <!-- SEARCH AND CATEGORY -->
-                    <div class="menu-tools">
-
-                        <label class="search-box">
-                            <span>⌕</span>
-
-                            <input id="menuSearch" type="search" placeholder="Search menu..." aria-label="Search menu">
-                        </label>
-
-                        <div class="category-tabs" id="categoryTabs">
-
-                            <button class="category-btn selected" data-category="All">
-                                All items
-                            </button>
-
-                            <button class="category-btn" data-category="Burgers">
-                                🍔 Burgers
-                            </button>
-
-                            <button class="category-btn" data-category="Sides">
-                                🍟 Sides
-                            </button>
-
-                            <button class="category-btn" data-category="Drinks">
-                                🥤 Drinks
-                            </button>
-
-                        </div>
-                    </div>
-
-                    <!-- PRODUCTS -->
-                    <div class="section-heading">
-
-                        <div>
-                            <h3>Popular menu</h3>
-
-                            <p class="muted" id="menuCount">
-                                Choose an item to add it
-                            </p>
-                        </div>
-
-                        <span class="tiny-tag">MADE WITH LOVE ✦</span>
-
-                    </div>
-
-                    <div class="product-grid" id="menuGrid"></div>
-
+                    <button class="primary-btn" onclick="goToPage('pos')">
+                        <i class="bi bi-plus-lg"></i> New Order
+                    </button>
                 </div>
 
-                <!-- ORDER PANEL -->
-                <aside class="order-panel">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon orange">
+                            <i class="bi bi-currency-exchange"></i>
+                        </div>
+                        <p>Total Revenue</p>
+                        <h3 id="totalRevenue">Rs. 0.00</h3>
+                    </div>
 
-                    <div class="order-head">
+                    <div class="stat-card">
+                        <div class="stat-icon blue">
+                            <i class="bi bi-bag-check"></i>
+                        </div>
+                        <p>Total Orders</p>
+                        <h3 id="totalOrders">0</h3>
+                    </div>
 
-                        <div>
-                            <p class="eyebrow orange">CURRENT ORDER</p>
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <i class="bi bi-people"></i>
+                        </div>
+                        <p>Total Customers</p>
+                        <h3 id="totalCustomers">0</h3>
+                    </div>
 
-                            <h2>
-                                Order <span id="orderNumber">#0001</span>
-                            </h2>
+                    <div class="stat-card">
+                        <div class="stat-icon purple">
+                            <i class="bi bi-box-seam"></i>
+                        </div>
+                        <p>Menu Products</p>
+                        <h3 id="totalProducts">0</h3>
+                    </div>
+                </div>
+
+                <div class="dashboard-grid">
+                    <div class="panel">
+                        <div class="panel-header">
+                            <h4>Recent Orders</h4>
+                            <button class="text-btn" onclick="goToPage('orders')">View All</button>
                         </div>
 
-                        <button class="text-btn" id="clearCart">
-                            Clear all
+                        <div class="table-responsive">
+                            <table class="table custom-table">
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Customer</th>
+                                        <th>Amount</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentOrdersTable"></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="panel welcome-panel">
+                        <div class="welcome-emoji">🍔</div>
+                        <h3>Fire Up Your Sales!</h3>
+                        <p>Manage orders, customers and delicious burgers from one place.</p>
+                        <button class="primary-btn" onclick="goToPage('pos')">
+                            Open POS <i class="bi bi-arrow-right"></i>
                         </button>
-
                     </div>
+                </div>
+            </section>
 
+            <!-- POS -->
+            <section id="posPage" class="page-section">
 
-                    <div class="order-meta">
-                        <span class="order-type">● Dine-in</span>
-                        <span id="orderClock">Just now</span>
+                <div class="page-heading">
+                    <div>
+                        <h2>Point of Sale</h2>
+                        <p>Choose delicious items and create an order.</p>
                     </div>
+                </div>
 
-                    <!-- CUSTOMER SELECT -->
-                    <div class="customer-select">
+                <div class="pos-layout">
 
-                        <label for="orderCustomer">CUSTOMER</label>
-
-                        <select id="orderCustomer">
-                            <option value="">Walk-in customer</option>
-                        </select>
-
-                        <button id="quickCustomer" title="Add customer">+</button>
-
-                    </div>
-
-
-                    <!-- CART -->
-                    <div class="cart-list" id="cartList">
-
-                        <div class="empty-cart">
-                            <div>🛍️</div>
-
-                            <b>Your order is waiting</b>
-
-                            <p>Add something delicious from the menu.</p>
+                    <div class="menu-area">
+                        <div class="menu-toolbar">
+                            <div class="search-box">
+                                <i class="bi bi-search"></i>
+                                <input type="text" id="productSearch"
+                                    placeholder="Search burgers, drinks..."
+                                    oninput="displayMenu()">
+                            </div>
                         </div>
 
+                        <div class="category-tabs">
+                            <button class="category-btn active" onclick="setCategory('All', this)">All Items</button>
+                            <button class="category-btn" onclick="setCategory('Burgers', this)">🍔 Burgers</button>
+                            <button class="category-btn" onclick="setCategory('Sides', this)">🍟 Sides</button>
+                            <button class="category-btn" onclick="setCategory('Drinks', this)">🥤 Drinks</button>
+                        </div>
+
+                        <div class="product-grid" id="menuGrid"></div>
                     </div>
 
-                    <!-- BILL SUMMARY -->
-                    <div class="bill-summary">
-
-                        <div>
-                            <span>Subtotal</span>
-                            <b id="subtotal">Rs. 0.00</b>
+                    <div class="cart-panel">
+                        <div class="cart-header">
+                            <div>
+                                <h3><i class="bi bi-basket2"></i> Current Order</h3>
+                                <span id="cartCount">0 items</span>
+                            </div>
+                            <button class="icon-btn" onclick="clearCart()" title="Clear cart">
+                                <i class="bi bi-trash"></i>
+                            </button>
                         </div>
 
-                        <div>
-                            <span>Service charge <small>(0%)</small></span>
-                            <b id="serviceCharge">Rs. 0.00</b>
+                        <div class="cart-customer">
+                            <label>Customer</label>
+                            <select id="cartCustomer" class="form-select">
+                                <option value="">Walk-in Customer</option>
+                            </select>
                         </div>
 
-                        <div class="total-line">
-                            <span>Total to pay</span>
-                            <strong id="grandTotal">Rs. 0.00</strong>
-                        </div>
+                        <div class="cart-items" id="cartItems"></div>
 
+                        <div class="cart-footer">
+                            <div class="total-row">
+                                <span>Subtotal</span>
+                                <strong id="subtotal">Rs. 0.00</strong>
+                            </div>
+
+                            <div class="discount-row">
+                                <label for="discount">Discount (%)</label>
+                                <input type="number" id="discount" min="0" max="100"
+                                    value="0" oninput="updateCart()">
+                            </div>
+
+                            <div class="total-row">
+                                <span>Discount</span>
+                                <strong id="discountAmount">Rs. 0.00</strong>
+                            </div>
+
+                            <div class="total-row grand-total">
+                                <span>Total</span>
+                                <strong id="grandTotal">Rs. 0.00</strong>
+                            </div>
+
+                            <button class="checkout-btn" onclick="checkout()">
+                                <i class="bi bi-check-circle"></i> Complete Order
+                            </button>
+
+                            <button class="outline-btn w-100 mt-2" onclick="printCurrentCart()">
+                                <i class="bi bi-printer"></i> Print Cart Preview
+                            </button>
+                        </div>
                     </div>
 
+                </div>
+            </section>
 
-                    <!-- CHECKOUT -->
-                    <button class="checkout-btn" id="checkoutBtn">
+            <!-- PRODUCT MANAGEMENT -->
+            <section id="productsPage" class="page-section">
 
-                        <span>Charge customer</span>
+                <div class="page-heading">
+                    <div>
+                        <h2>Product Management</h2>
+                        <p>Add, edit and manage your menu items.</p>
+                    </div>
 
-                        <b id="checkoutTotal">Rs. 0.00</b>
-
-                        <span>→</span>
-
+                    <button class="primary-btn" onclick="openProductModal()">
+                        <i class="bi bi-plus-lg"></i> Add Product
                     </button>
-
-                    <p class="secure-note">
-                        ✦ &nbsp; Fresh food. Happy customers.
-                    </p>
-
-                </aside>
-
-            </div>
-
-        </section>
-
-        <!--mangement process-->
-
-        <!-- PRODUCTS MANAGEMENT -->
-        <section class="view" id="view-products">
-
-            <div class="page-intro">
-
-                <div>
-                    <p class="eyebrow orange">MENU MANAGEMENT</p>
-
-                    <h2>Products <em>& inventory</em></h2>
-
-                    <p class="muted">
-                        Create, update and organise your menu items.
-                    </p>
                 </div>
 
-                <button class="primary-btn" id="addProductBtn">
-                    ＋ Add product
-                </button>
-
-            </div>
-
-            <div class="stats-row" id="productStats"></div>
-
-            <div class="table-card">
-
-                <div class="table-toolbar">
-                    <h3>All products</h3>
-
-                    <input class="table-search" id="productSearch" placeholder="Search products...">
+                <div class="panel">
+                    <div class="table-responsive">
+                        <table class="table custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Category</th>
+                                    <th>Price</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productsTable"></tbody>
+                        </table>
+                    </div>
                 </div>
+            </section>
 
-                <div class="table-wrap">
+            <!-- CUSTOMER MANAGEMENT -->
+            <section id="customersPage" class="page-section">
 
-                    <table>
+                <div class="page-heading">
+                    <div>
+                        <h2>Customer Management</h2>
+                        <p>Manage your loyal burger lovers.</p>
+                    </div>
 
-                        <thead>
-                            <tr>
-                                <th>PRODUCT</th>
-                                <th>CATEGORY</th>
-                                <th>PRICE</th>
-                                <th>STATUS</th>
-                                <th>ACTIONS</th>
-                            </tr>
-                        </thead>
-
-                        <tbody id="productsTable"></tbody>
-
-                    </table>
-
-                </div>
-            </div>
-
-        </section>
-
-        <!-- CUSTOMERS MANAGEMENT -->
-        <section class="view" id="view-customers">
-
-            <div class="page-intro">
-
-                <div>
-                    <p class="eyebrow orange">CUSTOMER DIRECTORY</p>
-
-                    <h2>Know your <em>regulars</em></h2>
-
-                    <p class="muted">
-                        Keep customer details organised and up to date.
-                    </p>
-                </div>
-
-                <button class="primary-btn" id="addCustomerBtn">
-                    ＋ Add customer
-                </button>
-
-            </div>
-
-            <div class="stats-row" id="customerStats"></div>
-
-            <div class="table-card">
-
-                <div class="table-toolbar">
-                    <h3>Customer list</h3>
-
-                    <input class="table-search" id="customerSearch" placeholder="Search customers...">
-                </div>
-
-                <div class="table-wrap">
-
-                    <table>
-
-                        <thead>
-                            <tr>
-                                <th>CUSTOMER</th>
-                                <th>PHONE</th>
-                                <th>ORDERS</th>
-                                <th>ACTIONS</th>
-                            </tr>
-                        </thead>
-
-                        <tbody id="customersTable"></tbody>
-
-                    </table>
-
-                </div>
-            </div>
-
-        </section>
-
-        <!-- ORDERS MANAGEMENT -->
-        <section class="view" id="view-orders">
-
-            <div class="page-intro">
-
-                <div>
-                    <p class="eyebrow orange">SALES HISTORY</p>
-
-                    <h2>Every order, <em>in one place</em></h2>
-
-                    <p class="muted">
-                        Review completed transactions and print receipts.
-                    </p>
-                </div>
-
-                <div class="orders-total" id="ordersTotal">
-                    Rs. 0.00 <small>total sales</small>
-                </div>
-
-            </div>
-
-            <div class="stats-row" id="orderStats"></div>
-
-            <div class="table-card">
-
-                <div class="table-toolbar">
-                    <h3>Recent orders</h3>
-
-                    <input class="table-search" id="orderSearch" placeholder="Search order or customer...">
-                </div>
-
-                <div class="table-wrap">
-
-                    <table>
-
-                        <thead>
-                            <tr>
-                                <th>ORDER ID</th>
-                                <th>CUSTOMER</th>
-                                <th>DATE & TIME</th>
-                                <th>ITEMS</th>
-                                <th>TOTAL</th>
-                                <th>ACTION</th>
-                            </tr>
-                        </thead>
-
-                        <tbody id="ordersTable"></tbody>
-
-                    </table>
-
-                </div>
-            </div>
-
-        </section>
-    </main>
-
-    </div>
-
-    <!-- TOAST MESSAGE -->
-    <div class="toast" id="toast" role="status"></div>
-
-
-    <!-- ADD / EDIT MODAL -->
-    <!-- <div class="modal-backdrop" id="modalBackdrop">
-
-        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-
-            <div class="modal-head">
-
-                <div>
-                    <p class="eyebrow orange">GRILLMASTER</p>
-                    <h2 id="modalTitle">Add item</h2>
-                </div>
-
-                <button class="close-btn" id="closeModal" aria-label="Close">
-                    ×
-                </button>
-
-            </div>
-
-            <form id="entityForm">
-
-                <div id="modalFields" class="modal-fields"></div>
-
-                <div class="modal-actions">
-
-                    <button type="button" class="secondary-btn" id="cancelModal">
-                        Cancel
+                    <button class="primary-btn" onclick="openCustomerModal()">
+                        <i class="bi bi-person-plus"></i> Add Customer
                     </button>
-
-                    <button type="submit" class="primary-btn">
-                        Save changes <span>→</span>
-                    </button>
-
                 </div>
 
-            </form>
+                <div class="panel">
+                    <div class="table-responsive">
+                        <table class="table custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Customer ID</th>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                    <th>Email</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="customersTable"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ORDER MANAGEMENT -->
+            <section id="ordersPage" class="page-section">
+
+                <div class="page-heading">
+                    <div>
+                        <h2>Order Management</h2>
+                        <p>Track sales and print customer receipts.</p>
+                    </div>
+                    <button class="primary-btn" onclick="goToPage('pos')">
+                        <i class="bi bi-plus-lg"></i> New Order
+                    </button>
+                </div>
+
+                <div class="panel">
+                    <div class="table-responsive">
+                        <table class="table custom-table">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Date</th>
+                                    <th>Customer</th>
+                                    <th>Items</th>
+                                    <th>Total</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ordersTable"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
 
         </div>
+    </main>
+</div>
 
+<!-- PRODUCT MODAL -->
+<div class="modal fade" id="productModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content custom-modal">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productModalTitle">Add Product</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form id="productForm" onsubmit="saveProduct(event)">
+                <div class="modal-body">
+                    <input type="hidden" id="productId">
+
+                    <div class="mb-3">
+                        <label class="form-label">Product Name</label>
+                        <input type="text" class="form-control" id="productName" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Category</label>
+                        <select class="form-select" id="productCategory" required>
+                            <option value="Burgers">Burgers</option>
+                            <option value="Sides">Sides</option>
+                            <option value="Drinks">Drinks</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Price (Rs.)</label>
+                        <input type="number" class="form-control" id="productPrice" min="1" step="0.01" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" id="productDescription" rows="2"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Image URL (Optional)</label>
+                        <input type="url" class="form-control" id="productImage"
+                            placeholder="https://example.com/burger.jpg">
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="outline-btn" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="primary-btn">Save Product</button>
+                </div>
+            </form>
+        </div>
     </div>
+</div>
 
-    RECEIPT MODAL 
-    <div class="modal-backdrop" id="receiptBackdrop">
+<!-- CUSTOMER MODAL -->
+<div class="modal fade" id="customerModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content custom-modal">
+            <div class="modal-header">
+                <h5 class="modal-title" id="customerModalTitle">Add Customer</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
 
-        <div class="receipt-modal" id="receiptContent"></div>
+            <form id="customerForm" onsubmit="saveCustomer(event)">
+                <div class="modal-body">
+                    <input type="hidden" id="customerId">
 
-    </div> -->
+                    <div class="mb-3">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="customerName" required>
+                    </div>
 
+                    <div class="mb-3">
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" class="form-control" id="customerPhone"
+                            pattern="[0-9+ -]{9,15}" required>
+                    </div>
 
+                    <div class="mb-3">
+                        <label class="form-label">Email (Optional)</label>
+                        <input type="email" class="form-control" id="customerEmail">
+                    </div>
+                </div>
 
+                <div class="modal-footer">
+                    <button type="button" class="outline-btn" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="primary-btn">Save Customer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
+<!-- TOAST -->
+<div id="toastMessage" class="app-toast"></div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/image-api.js"></script>
+<script src="js/app.js"></script>
 
-
-
-
-
-
-    <!-- Bootstrap 5 JavaScript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/image-api.js"></script>
 </body>
-
 </html>

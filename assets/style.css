@@ -202,3 +202,84 @@ select:focus-visible {
 .nav-link.active kbd {
     color: rgba(255,255,255,0.7);
 }
+.sidebar-bottom {
+    margin-top: auto;
+}
+.open-status {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+
+    padding: 14px 12px;
+    margin-bottom: 17px;
+
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    background: rgba(255,255,255,0.04);
+}
+.open-status i {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #48c982;
+
+    box-shadow: 0 0 0 5px rgba(72,201,130,0.1);
+}
+.open-status span,
+.staff-card > span {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.open-status b,
+.staff-card b {
+    font-size: 11px;
+    color: white;
+}
+
+.open-status small,
+.staff-card small {
+    color: #92948b;
+    font-size: 10px;
+}
+.staff-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 3px;
+
+    border-top: 1px solid rgba(255,255,255,0.08);
+}
+.avatar,
+.top-avatar {
+    width: 34px;
+    height: 34px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 50%;
+    background: #393a32;
+
+    color: var(--orange);
+    font-weight: 800;
+    font-size: 11px;
+}
+.staff-card .more {
+    margin-left: auto;
+    color: #999;
+    letter-spacing: 2px;
+}
+
+.side-foot {
+    display: block;
+    margin-top: 17px;
+    color: #6d7065;
+    font-size: 9px;
+    letter-spacing: 1px;
+}
+
+.side-foot span {
+    float: right;
+}

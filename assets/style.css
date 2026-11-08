@@ -385,3 +385,26 @@ select:focus-visible {
     font-size: 22px;
 }
 
+/* switching */
+.view {
+    display: none;
+    animation: fadeUp 0.45s ease both;
+}
+
+.view.active {
+    display: block;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+

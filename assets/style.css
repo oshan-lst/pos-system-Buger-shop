@@ -149,3 +149,56 @@ select:focus-visible {
     margin-bottom: 14px;
     padding-left: 11px;
 }
+.nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    width: 100%;
+    padding: 13px 12px;
+
+    border: 0;
+    border-radius: 11px;
+
+    color: #a8aaa0;
+    background: transparent;
+
+    text-align: left;
+    font-size: 13px;
+    font-weight: 600;
+
+    transition: var(--transition);
+}
+.nav-link > span {
+    width: 23px;
+    font-size: 19px;
+    text-align: center;
+}
+
+.nav-link kbd {
+    margin-left: auto;
+    color: #65675e;
+    font-size: 9px;
+    background: transparent;
+}
+
+.nav-link:hover {
+    background: rgba(255,255,255,0.07);
+    color: white;
+    transform: translateX(3px);
+}
+
+.nav-link.active {
+    background: var(--orange);
+    color: white;
+    box-shadow: 0 5px 18px rgba(244,123,53,0.2);
+}
+
+.nav-link.active kbd {
+    color: rgba(255,255,255,0.7);
+}

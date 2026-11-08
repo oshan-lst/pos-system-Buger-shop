@@ -452,6 +452,58 @@
 
     </div>
 
+    <!-- TOAST MESSAGE -->
+    <div class="toast" id="toast" role="status"></div>
+
+
+    <!-- ADD / EDIT MODAL -->
+    <div class="modal-backdrop" id="modalBackdrop">
+
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+
+            <div class="modal-head">
+
+                <div>
+                    <p class="eyebrow orange">GRILLMASTER</p>
+                    <h2 id="modalTitle">Add item</h2>
+                </div>
+
+                <button class="close-btn" id="closeModal" aria-label="Close">
+                    ×
+                </button>
+
+            </div>
+
+            <form id="entityForm">
+
+                <div id="modalFields" class="modal-fields"></div>
+
+                <div class="modal-actions">
+
+                    <button type="button" class="secondary-btn" id="cancelModal">
+                        Cancel
+                    </button>
+
+                    <button type="submit" class="primary-btn">
+                        Save changes <span>→</span>
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- RECEIPT MODAL -->
+    <div class="modal-backdrop" id="receiptBackdrop">
+
+        <div class="receipt-modal" id="receiptContent"></div>
+
+    </div>
+
+
 
 
 

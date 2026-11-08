@@ -91,3 +91,61 @@ select:focus-visible {
 
     transition: var(--transition);
 }
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    text-decoration: none;
+    color: white;
+
+    margin-bottom: 48px;
+}
+
+.brand-mark {
+    width: 43px;
+    height: 43px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 13px;
+    background: var(--orange);
+
+    color: white;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+
+    transform: rotate(-5deg);
+}
+
+.brand-mark span {
+    color: #24251f;
+}
+
+.brand-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.brand-copy b {
+    font-size: 14px;
+    letter-spacing: 1.5px;
+}
+
+.brand-copy small {
+    font-size: 9px;
+    letter-spacing: 1.4px;
+    color: #999b91;
+}
+
+.side-label {
+    color: #77796f;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.7px;
+    margin-bottom: 14px;
+    padding-left: 11px;
+}

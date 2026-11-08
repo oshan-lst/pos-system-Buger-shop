@@ -1,0 +1,66 @@
+[
+    {
+        "id": 1,
+        "name": "Classic Beef Burger",
+        "category": "Burgers",
+        "price": 1250,
+        "description": "Juicy beef patty with fresh vegetables",
+        "image": ""
+    },
+    {
+        "id": 2,
+        "name": "Cheese Burger",
+        "category": "Burgers",
+        "price": 1450,
+        "description": "Beef burger with melted cheese",
+        "image": ""
+    },
+    {
+        "id": 3,
+        "name": "Chicken Burger",
+        "category": "Burgers",
+        "price": 1100,
+        "description": "Crispy chicken burger",
+        "image": ""
+    },
+    {
+        "id": 4,
+        "name": "Double Beef Burger",
+        "category": "Burgers",
+        "price": 1850,
+        "description": "Double beef patty burger",
+        "image": ""
+    },
+    {
+        "id": 5,
+        "name": "French Fries",
+        "category": "Sides",
+        "price": 550,
+        "description": "Golden crispy french fries",
+        "image": ""
+    },
+    {
+        "id": 6,
+        "name": "Chicken Nuggets",
+        "category": "Sides",
+        "price": 750,
+        "description": "Crispy chicken nuggets",
+        "image": ""
+    },
+    {
+        "id": 7,
+        "name": "Coca Cola",
+        "category": "Drinks",
+        "price": 300,
+        "description": "Chilled Coca Cola",
+        "image": ""
+    },
+    {
+        "id": 8,
+        "name": "Orange Juice",
+        "category": "Drinks",
+        "price": 450,
+        "description": "Fresh orange juice",
+        "image": ""
+    }
+]

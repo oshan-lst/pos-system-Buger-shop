@@ -854,6 +854,184 @@ function updateCart() {
     getElement("discountAmount").textContent = formatMoney(totals.discountAmount);
     getElement("grandTotal").textContent = formatMoney(totals.total);
 }
+//order managment
+function loadOrders() {
+
+    var data = localStorage.getItem("grill_orders");
+
+    if (data != null) {
+
+        try {
+            orders = JSON.parse(data);
+        } catch (error) {
+            orders = [];
+        }
+    }
+
+    displayOrders();
+    updateDashboard();
+}
+
+function saveOrdersToStorage() {
+    localStorage.setItem("grill_orders", JSON.stringify(orders));
+}
+
+function checkout() {
+
+    if (cart.length == 0) {
+        alert("Please add products to the cart first!");
+        return;
+    }
+
+    var customerId = getElement("cartCustomer").value;
+    var customerName = "Walk-in Customer";
+
+    if (customerId != "") {
+
+        var customer = findCustomer(Number(customerId));
+
+        if (customer != null) {
+            customerName = customer.name;
+        }
+    }
+
+    var totals = calculateTotals();
+
+    var orderItems = [];
+
+    for (var i = 0; i < cart.length; i++) {
+
+        orderItems.push({
+            id: cart[i].id,
+            name: cart[i].name,
+            price: cart[i].price,
+            quantity: cart[i].quantity
+        });
+    }
+
+    var order = {
+        id: generateId(orders),
+        date: new Date().toISOString(),
+        customerId: customerId == "" ? null : Number(customerId),
+        customerName: customerName,
+        items: orderItems,
+        subtotal: totals.subtotal,
+        discount: totals.discount,
+        discountAmount: totals.discountAmount,
+        total: totals.total,
+        status: "Completed"
+    };
+
+    orders.push(order);
+
+    saveOrdersToStorage();
+
+    cart = [];
+
+    getElement("discount").value = 0;
+    getElement("cartCustomer").value = "";
+
+    updateCart();
+    displayOrders();
+    updateDashboard();
+
+    showToast("Order completed successfully!");
+
+    // Print the saved order.
+    printOrder(order.id);
+}
+
+function displayOrders() {
+
+    var html = "";
+
+    for (var i = orders.length - 1; i >= 0; i--) {
+
+        var order = orders[i];
+
+        var date = new Date(order.date).toLocaleString("en-LK");
+
+        var itemCount = 0;
+
+        for (var j = 0; j < order.items.length; j++) {
+            itemCount += order.items[j].quantity;
+        }
+
+        html +=
+            "<tr>" +
+                "<td><strong>#GM-" + order.id + "</strong></td>" +
+                "<td>" + escapeHTML(date) + "</td>" +
+                "<td>" + escapeHTML(order.customerName) + "</td>" +
+                "<td>" + itemCount + " items</td>" +
+                "<td><strong>" + formatMoney(order.total) + "</strong></td>" +
+                "<td>" +
+                    '<select class="status-select" onchange="changeOrderStatus(' + order.id + ', this.value)">' +
+                        '<option value="Completed"' + (order.status == "Completed" ? " selected" : "") + '>Completed</option>' +
+                        '<option value="Pending"' + (order.status == "Pending" ? " selected" : "") + '>Pending</option>' +
+                        '<option value="Cancelled"' + (order.status == "Cancelled" ? " selected" : "") + '>Cancelled</option>' +
+                    '</select>' +
+                "</td>" +
+                "<td>" +
+                    '<button class="action-btn print" onclick="printOrder(' + order.id + ')" title="Print Bill">' +
+                        '<i class="bi bi-printer"></i>' +
+                    '</button>' +
+                    '<button class="action-btn delete" onclick="deleteOrder(' + order.id + ')" title="Delete">' +
+                        '<i class="bi bi-trash"></i>' +
+                    '</button>' +
+                "</td>" +
+            "</tr>";
+    }
+
+    if (orders.length == 0) {
+        html = '<tr><td colspan="7" class="empty-state">No orders yet. Create your first order!</td></tr>';
+    }
+
+    getElement("ordersTable").innerHTML = html;
+}
+
+function changeOrderStatus(id, status) {
+
+    var order = findOrder(id);
+
+    if (order == null) {
+        return;
+    }
+
+    if (status != "Completed" && status != "Pending" && status != "Cancelled") {
+        return;
+    }
+
+    order.status = status;
+
+    saveOrdersToStorage();
+
+    displayOrders();
+    updateDashboard();
+
+    showToast("Order status updated!");
+}
+
+function deleteOrder(id) {
+
+    if (!confirm("Are you sure you want to delete this order?")) {
+        return;
+    }
+
+    for (var i = 0; i < orders.length; i++) {
+
+        if (orders[i].id == id) {
+            orders.splice(i, 1);
+            break;
+        }
+    }
+
+    saveOrdersToStorage();
+
+    displayOrders();
+    updateDashboard();
+
+    showToast("Order deleted!");
+}
 
 
 

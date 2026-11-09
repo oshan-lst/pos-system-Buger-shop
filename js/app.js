@@ -169,3 +169,71 @@ function findOrder(id) {
     return null;
 }
 
+//page navigation function
+function showPage(page, button) {
+
+    var pages = document.querySelectorAll(".page-section");
+
+    for (var i = 0; i < pages.length; i++) {
+        pages[i].classList.remove("active-page");
+    }
+    getElement(page + "Page").classList.add("active-page");
+
+    var buttons = document.querySelectorAll(".nav-menu .nav-link");
+
+    for (var j = 0; j < buttons.length; j++) {
+        buttons[j].classList.remove("active");
+    }
+    if (button != null) {
+        button.classList.add("active");
+    }
+    var titles = {
+        dashboard: "Dashboard",
+        pos: "Point of Sale",
+        products: "Product Management",
+        customers: "Customer Management",
+        orders: "Order Management"
+    };
+    getElement("pageTitle").textContent = titles[page];
+
+    getElement("sidebar").classList.remove("open");
+
+    if (page == "dashboard") {
+        updateDashboard();
+    }
+
+    if (page == "pos") {
+        displayMenu();
+        updateCart();
+    }
+
+    if (page == "products") {
+        displayProducts();
+    }
+
+    if (page == "customers") {
+        displayCustomers();
+    }
+
+    if (page == "orders") {
+        displayOrders();
+    }
+}
+function goToPage(page) {
+
+    var buttons = document.querySelectorAll(".nav-menu .nav-link");
+
+    var pages = ["dashboard", "pos", "products", "customers", "orders"];
+
+    for (var i = 0; i < pages.length; i++) {
+
+        if (pages[i] == page) {
+            showPage(page, buttons[i]);
+            return;
+        }
+    }
+}
+
+function toggleSidebar() {
+    getElement("sidebar").classList.toggle("open");
+}

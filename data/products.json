@@ -1,10 +1,11 @@
+
 [
     {
         "id": 1,
         "name": "Classic Beef Burger",
         "category": "Burgers",
         "price": 1250,
-        "description": "Juicy beef patty with fresh vegetables",
+        "description": "Juicy beef patty with lettuce, tomato and special sauce.",
         "image": ""
     },
     {
@@ -12,15 +13,15 @@
         "name": "Cheese Burger",
         "category": "Burgers",
         "price": 1450,
-        "description": "Beef burger with melted cheese",
+        "description": "Grilled beef patty topped with melted cheese.",
         "image": ""
     },
     {
         "id": 3,
-        "name": "Chicken Burger",
+        "name": "Crispy Chicken Burger",
         "category": "Burgers",
         "price": 1100,
-        "description": "Crispy chicken burger",
+        "description": "Golden crispy chicken with fresh vegetables.",
         "image": ""
     },
     {
@@ -28,7 +29,7 @@
         "name": "Double Beef Burger",
         "category": "Burgers",
         "price": 1850,
-        "description": "Double beef patty burger",
+        "description": "Two juicy beef patties with cheese and sauce.",
         "image": ""
     },
     {
@@ -36,7 +37,7 @@
         "name": "French Fries",
         "category": "Sides",
         "price": 550,
-        "description": "Golden crispy french fries",
+        "description": "Golden, crispy and perfectly salted fries.",
         "image": ""
     },
     {
@@ -44,7 +45,7 @@
         "name": "Chicken Nuggets",
         "category": "Sides",
         "price": 750,
-        "description": "Crispy chicken nuggets",
+        "description": "Crispy chicken nuggets served with dipping sauce.",
         "image": ""
     },
     {
@@ -52,7 +53,7 @@
         "name": "Coca Cola",
         "category": "Drinks",
         "price": 300,
-        "description": "Chilled Coca Cola",
+        "description": "Refreshing chilled Coca Cola.",
         "image": ""
     },
     {
@@ -60,7 +61,7 @@
         "name": "Orange Juice",
         "category": "Drinks",
         "price": 450,
-        "description": "Fresh orange juice",
+        "description": "Fresh and refreshing orange juice.",
         "image": ""
     }
 ]

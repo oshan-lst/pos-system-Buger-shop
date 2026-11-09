@@ -509,5 +509,190 @@ function deleteProduct(id) {
     showToast("Product deleted!");
 }
 
+//customer manage
+function loadCustomers() {
+
+    var data = localStorage.getItem("grill_customers");
+
+    if (data != null) {
+
+        try {
+            customers = JSON.parse(data);
+        } catch (error) {
+            customers = [];
+        }
+    }
+
+    displayCustomers();
+    updateCustomerSelect();
+    updateDashboard();
+}
+
+function saveCustomersToStorage() {
+    localStorage.setItem("grill_customers", JSON.stringify(customers));
+}
+
+function displayCustomers() {
+
+    var html = "";
+
+    for (var i = 0; i < customers.length; i++) {
+
+        var customer = customers[i];
+
+        html +=
+            "<tr>" +
+                "<td>#CUS-" + customer.id + "</td>" +
+                "<td><strong>" + escapeHTML(customer.name) + "</strong></td>" +
+                "<td>" + escapeHTML(customer.phone) + "</td>" +
+                "<td>" + escapeHTML(customer.email || "-") + "</td>" +
+                "<td>" +
+                    '<button class="action-btn edit" onclick="editCustomer(' + customer.id + ')" title="Edit">' +
+                        '<i class="bi bi-pencil"></i>' +
+                    '</button>' +
+                    '<button class="action-btn delete" onclick="deleteCustomer(' + customer.id + ')" title="Delete">' +
+                        '<i class="bi bi-trash"></i>' +
+                    '</button>' +
+                "</td>" +
+            "</tr>";
+    }
+
+    if (customers.length == 0) {
+        html = '<tr><td colspan="5" class="empty-state">No customers yet. Add your first customer!</td></tr>';
+    }
+
+    getElement("customersTable").innerHTML = html;
+}
+
+function openCustomerModal() {
+
+    getElement("customerForm").reset();
+    getElement("customerId").value = "";
+    getElement("customerModalTitle").textContent = "Add Customer";
+
+    bootstrap.Modal.getOrCreateInstance(getElement("customerModal")).show();
+}
+
+function editCustomer(id) {
+
+    var customer = findCustomer(id);
+
+    if (customer == null) {
+        return;
+    }
+
+    getElement("customerId").value = customer.id;
+    getElement("customerName").value = customer.name;
+    getElement("customerPhone").value = customer.phone;
+    getElement("customerEmail").value = customer.email || "";
+
+    getElement("customerModalTitle").textContent = "Edit Customer";
+
+    bootstrap.Modal.getOrCreateInstance(getElement("customerModal")).show();
+}
+
+function saveCustomer(event) {
+
+    event.preventDefault();
+
+    var id = getElement("customerId").value;
+    var name = getElement("customerName").value.trim();
+    var phone = getElement("customerPhone").value.trim();
+    var email = getElement("customerEmail").value.trim();
+
+    if (name == "" || phone == "") {
+        alert("Customer name and phone are required.");
+        return;
+    }
+
+    for (var i = 0; i < customers.length; i++) {
+
+        if (customers[i].phone == phone && customers[i].id != id) {
+            alert("This phone number already exists.");
+            return;
+        }
+    }
+
+    if (id == "") {
+
+        customers.push({
+            id: generateId(customers),
+            name: name,
+            phone: phone,
+            email: email
+        });
+
+        showToast("Customer added successfully!");
+
+    } else {
+
+        var customer = findCustomer(Number(id));
+
+        if (customer == null) {
+            alert("Customer not found.");
+            return;
+        }
+
+        customer.name = name;
+        customer.phone = phone;
+        customer.email = email;
+
+        showToast("Customer updated successfully!");
+    }
+
+    saveCustomersToStorage();
+
+    displayCustomers();
+    updateCustomerSelect();
+    updateDashboard();
+
+    bootstrap.Modal.getInstance(getElement("customerModal")).hide();
+}
+
+function deleteCustomer(id) {
+
+    if (!confirm("Delete this customer? Existing orders will remain saved.")) {
+        return;
+    }
+
+    for (var i = 0; i < customers.length; i++) {
+
+        if (customers[i].id == id) {
+            customers.splice(i, 1);
+            break;
+        }
+    }
+
+    saveCustomersToStorage();
+
+    displayCustomers();
+    updateCustomerSelect();
+    updateDashboard();
+
+    showToast("Customer deleted!");
+}
+
+function updateCustomerSelect() {
+
+    var select = getElement("cartCustomer");
+    var previousValue = select.value;
+
+    var html = '<option value="">Walk-in Customer</option>';
+
+    for (var i = 0; i < customers.length; i++) {
+
+        html +=
+            '<option value="' + customers[i].id + '">' +
+            escapeHTML(customers[i].name) +
+            '</option>';
+    }
+
+    select.innerHTML = html;
+
+    if (previousValue != "" && findCustomer(Number(previousValue)) != null) {
+        select.value = previousValue;
+    }
+}
+
 
 

@@ -1082,5 +1082,171 @@ function updateDashboard() {
     getElement("recentOrdersTable").innerHTML = html;
 }
 
+//bill print
+function printCurrentCart() {
+
+    if (cart.length == 0) {
+        alert("Your cart is empty!");
+        return;
+    }
+
+    var totals = calculateTotals();
+
+    var customerId = getElement("cartCustomer").value;
+    var customerName = "Walk-in Customer";
+
+    if (customerId != "") {
+
+        var customer = findCustomer(Number(customerId));
+
+        if (customer != null) {
+            customerName = customer.name;
+        }
+    }
+
+    var preview = {
+        id: "PREVIEW",
+        date: new Date().toISOString(),
+        customerName: customerName,
+        items: cart,
+        subtotal: totals.subtotal,
+        discount: totals.discount,
+        discountAmount: totals.discountAmount,
+        total: totals.total,
+        status: "Preview"
+    };
+
+    printReceipt(preview);
+}
+function printOrder(id) {
+
+    var order = findOrder(id);
+
+    if (order == null) {
+        alert("Order not found!");
+        return;
+    }
+
+    printReceipt(order);
+}
+function printReceipt(order) {
+
+    var printWindow = window.open("", "_blank", "width=420,height=700");
+
+    if (printWindow == null) {
+        alert("Please allow pop-ups to print the bill.");
+        return;
+    }
+
+    var itemRows = "";
+
+    for (var i = 0; i < order.items.length; i++) {
+
+        var item = order.items[i];
+
+        itemRows +=
+            "<tr>" +
+                "<td>" + escapeHTML(item.name) + "</td>" +
+                '<td class="center">' + item.quantity + "</td>" +
+                '<td class="right">' + formatMoney(item.price * item.quantity) + "</td>" +
+            "</tr>";
+    }
+
+    var date = new Date(order.date).toLocaleString("en-LK");
+
+    var bill =
+        '<!DOCTYPE html>' +
+        '<html lang="en">' +
+        "<head>" +
+            '<meta charset="UTF-8">' +
+            "<title>GrillMaster Receipt</title>" +
+            "<style>" +
+                "@page { size: 80mm auto; margin: 5mm; }" +
+                "* { box-sizing: border-box; }" +
+                "body { font-family: Arial, sans-serif; width: 70mm; max-width: 100%; margin: 0 auto; padding: 8px; color: #111; font-size: 11px; }" +
+                ".center { text-align: center; }" +
+                ".right { text-align: right; }" +
+                "h1 { font-size: 23px; margin: 8px 0 2px; }" +
+                ".subtitle { letter-spacing: 2px; font-size: 10px; }" +
+                ".line { border-top: 1px dashed #333; margin: 13px 0; }" +
+                ".info { line-height: 1.8; }" +
+                "table { width: 100%; border-collapse: collapse; }" +
+                "th, td { padding: 7px 2px; vertical-align: top; }" +
+                "th { border-bottom: 1px dashed #555; }" +
+                ".total { font-size: 16px; font-weight: bold; }" +
+                ".footer { margin-top: 22px; text-align: center; line-height: 1.7; }" +
+                "@media print { .no-print { display: none; } }" +
+            "</style>" +
+        "</head>" +
+        "<body>" +
+            '<div class="center">' +
+                "<h1>GRILLMASTER</h1>" +
+                '<div class="subtitle">BURGER HOUSE</div>' +
+                "<p>Fresh Burgers. Happy Customers.</p>" +
+            "</div>" +
+
+            '<div class="line"></div>' +
+
+            '<div class="info">' +
+                "<div><strong>Receipt:</strong> #GM-" + escapeHTML(order.id) + "</div>" +
+                "<div><strong>Date:</strong> " + escapeHTML(date) + "</div>" +
+                "<div><strong>Customer:</strong> " + escapeHTML(order.customerName) + "</div>" +
+                "<div><strong>Status:</strong> " + escapeHTML(order.status) + "</div>" +
+            "</div>" +
+
+            '<div class="line"></div>' +
+
+            "<table>" +
+                "<thead>" +
+                    "<tr>" +
+                        "<th>Item</th>" +
+                        '<th class="center">Qty</th>' +
+                        '<th class="right">Amount</th>' +
+                    "</tr>" +
+                "</thead>" +
+                "<tbody>" + itemRows + "</tbody>" +
+            "</table>" +
+
+            '<div class="line"></div>' +
+
+            "<table>" +
+                "<tr><td>Subtotal</td><td class='right'>" + formatMoney(order.subtotal) + "</td></tr>" +
+                "<tr><td>Discount (" + order.discount + "%)</td><td class='right'>-" + formatMoney(order.discountAmount) + "</td></tr>" +
+                '<tr class="total"><td>TOTAL</td><td class="right">' + formatMoney(order.total) + "</td></tr>" +
+            "</table>" +
+
+            '<div class="line"></div>' +
+
+            '<div class="footer">' +
+                "<strong>THANK YOU!</strong>" +
+                "<div>Enjoy your meal!</div>" +
+                "<div>Please visit us again.</div>" +
+                "<p>Powered by GrillMaster POS</p>" +
+                
+            "</div>" +
+        "</body>" +
+        "</html>";
+
+    printWindow.document.open();
+    printWindow.document.write(bill);
+    printWindow.document.close();
+
+    printWindow.focus();
+
+    printWindow.onload = function() {
+        printWindow.print();
+    };
+
+    
+    // reliably for document.write() content.
+    setTimeout(function() {
+
+        if (!printWindow.closed) {
+            printWindow.focus();
+        }
+
+    }, 300);
+}
+
 
 

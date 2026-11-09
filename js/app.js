@@ -119,3 +119,53 @@ function updateClock() {
             day: "numeric"
         });
 }
+//item gen id
+function generateId(items) {
+
+    var highestId = 0;
+
+    for (var i = 0; i < items.length; i++) {
+
+        if (Number(items[i].id) > highestId) {
+            highestId = Number(items[i].id);
+        }
+    }
+
+    return highestId + 1;
+}
+
+//all find function
+function findProduct(id) {
+
+    for (var i = 0; i < products.length; i++) {
+
+        if (products[i].id == id) {
+            return products[i];
+        }
+    }
+
+    return null;
+}
+function findCustomer(id) {
+
+    for (var i = 0; i < customers.length; i++) {
+
+        if (customers[i].id == id) {
+            return customers[i];
+        }
+    }
+
+    return null;
+}
+function findOrder(id) {
+
+    for (var i = 0; i < orders.length; i++) {
+
+        if (orders[i].id == id) {
+            return orders[i];
+        }
+    }
+
+    return null;
+}
+

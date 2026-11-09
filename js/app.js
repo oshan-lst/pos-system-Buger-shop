@@ -237,3 +237,56 @@ function goToPage(page) {
 function toggleSidebar() {
     getElement("sidebar").classList.toggle("open");
 }
+
+//product data call
+function loadProducts() {
+
+    var savedProducts = localStorage.getItem("grill_products");
+
+    if (savedProducts != null) {
+
+        try {
+            products = JSON.parse(savedProducts);
+
+            displayMenu();
+            displayProducts();
+            updateDashboard();
+
+            return;
+
+        } catch (error) {
+            console.log("Saved product data error:", error);
+        }
+    }
+    fetch("data/products.json")
+        .then(function(response) {
+
+            if (!response.ok) {
+                throw new Error("Cannot load products.json");
+            }
+
+            return response.json();
+        })
+        .then(function(data) {
+
+            products = data;
+
+            displayMenu();
+            displayProducts();
+            updateDashboard();
+
+        })
+        .catch(function(error) {
+
+            console.log("Product loading error:", error);
+
+            getElement("menuGrid").innerHTML =
+                '<div class="empty-state">Unable to load products. Use VS Code Live Server.</div>';
+
+            showToast("Could not load products.json");
+        });
+}
+function saveProductsToStorage() {
+    localStorage.setItem("grill_products", JSON.stringify(products));
+}
+

@@ -355,6 +355,159 @@ function displayMenu() {
 
     grid.innerHTML = html;
 }
+//product manage
+function displayProducts() {
+
+    var table = getElement("productsTable");
+    var html = "";
+
+    for (var i = 0; i < products.length; i++) {
+
+        var product = products[i];
+        var image = GrillImageAPI.getProductImage(product);
+
+        html +=
+            "<tr>" +
+                '<td><div class="table-product">' +
+                    '<img src="' + escapeHTML(image) + '" alt="Product">' +
+                    '<strong>' + escapeHTML(product.name) + '</strong>' +
+                '</div></td>' +
+                "<td>" + escapeHTML(product.category) + "</td>" +
+                "<td>" + formatMoney(product.price) + "</td>" +
+                "<td>" +
+                    '<button class="action-btn edit" onclick="editProduct(' + product.id + ')" title="Edit">' +
+                        '<i class="bi bi-pencil"></i>' +
+                    '</button>' +
+                    '<button class="action-btn delete" onclick="deleteProduct(' + product.id + ')" title="Delete">' +
+                        '<i class="bi bi-trash"></i>' +
+                    '</button>' +
+                "</td>" +
+            "</tr>";
+    }
+
+    if (products.length == 0) {
+        html = '<tr><td colspan="4" class="empty-state">No products available.</td></tr>';
+    }
+
+    table.innerHTML = html;
+}
+function openProductModal() {
+
+    getElement("productForm").reset();
+    getElement("productId").value = "";
+    getElement("productModalTitle").textContent = "Add Product";
+
+    var modal = bootstrap.Modal.getOrCreateInstance(getElement("productModal"));
+    modal.show();
+}
+function editProduct(id) {
+
+    var product = findProduct(id);
+
+    if (product == null) {
+        return;
+    }
+
+    getElement("productId").value = product.id;
+    getElement("productName").value = product.name;
+    getElement("productCategory").value = product.category;
+    getElement("productPrice").value = product.price;
+    getElement("productDescription").value = product.description || "";
+    getElement("productImage").value = product.image || "";
+
+    getElement("productModalTitle").textContent = "Edit Product";
+
+    var modal = bootstrap.Modal.getOrCreateInstance(getElement("productModal"));
+    modal.show();
+}
+function saveProduct(event) {
+
+    event.preventDefault();
+
+    var id = getElement("productId").value;
+    var name = getElement("productName").value.trim();
+    var category = getElement("productCategory").value;
+    var price = Number(getElement("productPrice").value);
+    var description = getElement("productDescription").value.trim();
+    var image = getElement("productImage").value.trim();
+
+    if (name == "" || !Number.isFinite(price) || price <= 0) {
+        alert("Please enter a valid product name and price.");
+        return;
+    }
+
+    if (id == "") {
+
+        var newProduct = {
+            id: generateId(products),
+            name: name,
+            category: category,
+            price: price,
+            description: description,
+            image: image
+        };
+
+        products.push(newProduct);
+
+        showToast("Product added successfully!");
+
+    } else {
+
+        var product = findProduct(Number(id));
+
+        if (product == null) {
+            alert("Product not found.");
+            return;
+        }
+
+        product.name = name;
+        product.category = category;
+        product.price = price;
+        product.description = description;
+        product.image = image;
+
+        showToast("Product updated successfully!");
+    }
+
+    saveProductsToStorage();
+
+    displayProducts();
+    displayMenu();
+    updateCart();
+    updateDashboard();
+
+    bootstrap.Modal.getInstance(getElement("productModal")).hide();
+}
+function deleteProduct(id) {
+
+    if (!confirm("Are you sure you want to delete this product?")) {
+        return;
+    }
+
+    for (var i = 0; i < products.length; i++) {
+
+        if (products[i].id == id) {
+            products.splice(i, 1);
+            break;
+        }
+    }
+
+    for (var j = cart.length - 1; j >= 0; j--) {
+
+        if (cart[j].id == id) {
+            cart.splice(j, 1);
+        }
+    }
+
+    saveProductsToStorage();
+
+    displayProducts();
+    displayMenu();
+    updateCart();
+    updateDashboard();
+
+    showToast("Product deleted!");
+}
 
 
 

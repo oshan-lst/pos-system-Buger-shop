@@ -290,3 +290,71 @@ function saveProductsToStorage() {
     localStorage.setItem("grill_products", JSON.stringify(products));
 }
 
+//product menu
+function setCategory(category, button) {
+
+    selectedCategory = category;
+
+    var buttons = document.querySelectorAll(".category-btn");
+
+    for (var i = 0; i < buttons.length; i++) {
+        buttons[i].classList.remove("active");
+    }
+
+    button.classList.add("active");
+
+    displayMenu();
+}
+
+function displayMenu() {
+
+    var grid = getElement("menuGrid");
+    var search = getElement("productSearch").value.toLowerCase();
+
+    var html = "";
+    var count = 0;
+
+    for (var i = 0; i < products.length; i++) {
+
+        var product = products[i];
+
+        var categoryMatches =
+            selectedCategory == "All" ||
+            product.category == selectedCategory;
+
+        var searchMatches =
+            product.name.toLowerCase().indexOf(search) != -1;
+
+        if (categoryMatches && searchMatches) {
+
+            count++;
+
+            var image = GrillImageAPI.getProductImage(product);
+
+            html +=
+                '<div class="product-card">' +
+                    '<img class="product-image" src="' + escapeHTML(image) + '" alt="' + escapeHTML(product.name) + '" onerror="this.style.display=\'none\'">' +
+                    '<div class="product-info">' +
+                        '<span class="product-category">' + escapeHTML(product.category) + '</span>' +
+                        '<h3>' + escapeHTML(product.name) + '</h3>' +
+                        '<p>' + escapeHTML(product.description || "") + '</p>' +
+                        '<div class="product-bottom">' +
+                            '<span class="product-price">' + formatMoney(product.price) + '</span>' +
+                            '<button class="add-cart-btn" onclick="addToCart(' + product.id + ')">' +
+                                '<i class="bi bi-plus-lg"></i>' +
+                            '</button>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>';
+        }
+    }
+
+    if (count == 0) {
+        html = '<div class="empty-state">No products found.</div>';
+    }
+
+    grid.innerHTML = html;
+}
+
+
+

@@ -693,6 +693,168 @@ function updateCustomerSelect() {
         select.value = previousValue;
     }
 }
+//shoping cart
+function addToCart(id) {
+
+    var product = findProduct(id);
+
+    if (product == null) {
+        return;
+    }
+
+    for (var i = 0; i < cart.length; i++) {
+
+        if (cart[i].id == id) {
+
+            cart[i].quantity++;
+
+            updateCart();
+            showToast("Quantity updated!");
+
+            return;
+        }
+    }
+
+    cart.push({
+        id: product.id,
+        name: product.name,
+        price: Number(product.price),
+        quantity: 1
+    });
+
+    updateCart();
+    showToast("Added to cart!");
+}
+
+function changeQuantity(id, change) {
+
+    for (var i = 0; i < cart.length; i++) {
+
+        if (cart[i].id == id) {
+
+            cart[i].quantity += change;
+
+            if (cart[i].quantity <= 0) {
+                cart.splice(i, 1);
+            }
+
+            break;
+        }
+    }
+
+    updateCart();
+}
+
+function removeFromCart(id) {
+
+    for (var i = 0; i < cart.length; i++) {
+
+        if (cart[i].id == id) {
+            cart.splice(i, 1);
+            break;
+        }
+    }
+
+    updateCart();
+}
+
+function clearCart() {
+
+    if (cart.length == 0) {
+        return;
+    }
+
+    if (!confirm("Clear all items from the cart?")) {
+        return;
+    }
+
+    cart = [];
+
+    getElement("discount").value = 0;
+
+    updateCart();
+
+    showToast("Cart cleared!");
+}
+
+function calculateTotals() {
+
+    var subtotal = 0;
+    var quantity = 0;
+
+    for (var i = 0; i < cart.length; i++) {
+
+        subtotal += cart[i].price * cart[i].quantity;
+        quantity += cart[i].quantity;
+    }
+
+    var discount = Number(getElement("discount").value);
+
+    if (!Number.isFinite(discount) || discount < 0) {
+        discount = 0;
+    }
+
+    if (discount > 100) {
+        discount = 100;
+    }
+
+    var discountAmount = subtotal * discount / 100;
+    var total = subtotal - discountAmount;
+
+    return {
+        subtotal: subtotal,
+        discount: discount,
+        discountAmount: discountAmount,
+        total: total,
+        quantity: quantity
+    };
+}
+
+function updateCart() {
+
+    var html = "";
+
+    for (var i = 0; i < cart.length; i++) {
+
+        var item = cart[i];
+
+        html +=
+            '<div class="cart-item">' +
+                '<div>' +
+                    '<h4>' + escapeHTML(item.name) + '</h4>' +
+                    '<span class="cart-item-price">' + formatMoney(item.price * item.quantity) + '</span>' +
+                    '<div class="quantity-control">' +
+                        '<button onclick="changeQuantity(' + item.id + ', -1)">-</button>' +
+                        '<span>' + item.quantity + '</span>' +
+                        '<button onclick="changeQuantity(' + item.id + ', 1)">+</button>' +
+                    '</div>' +
+                '</div>' +
+                '<button class="icon-btn" onclick="removeFromCart(' + item.id + ')">' +
+                    '<i class="bi bi-x-lg"></i>' +
+                '</button>' +
+            '</div>';
+    }
+
+    if (cart.length == 0) {
+
+        html =
+            '<div class="empty-cart">' +
+                '<i class="bi bi-basket2"></i>' +
+                '<p>Your cart is empty</p>' +
+                '<small>Add some delicious burgers!</small>' +
+            '</div>';
+    }
+
+    getElement("cartItems").innerHTML = html;
+
+    var totals = calculateTotals();
+
+    getElement("cartCount").textContent = totals.quantity + " items";
+    getElement("subtotal").textContent = formatMoney(totals.subtotal);
+    getElement("discountAmount").textContent = formatMoney(totals.discountAmount);
+    getElement("grandTotal").textContent = formatMoney(totals.total);
+}
+
 
 
 

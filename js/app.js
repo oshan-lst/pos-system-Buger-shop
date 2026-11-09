@@ -1033,6 +1033,54 @@ function deleteOrder(id) {
     showToast("Order deleted!");
 }
 
+//dashbord
+function updateDashboard() {
+
+    var revenue = 0;
+    var completedOrders = 0;
+
+    for (var i = 0; i < orders.length; i++) {
+
+        if (orders[i].status == "Completed") {
+
+            revenue += Number(orders[i].total);
+            completedOrders++;
+        }
+    }
+
+    getElement("totalRevenue").textContent = formatMoney(revenue);
+    getElement("totalOrders").textContent = orders.length;
+    getElement("totalCustomers").textContent = customers.length;
+    getElement("totalProducts").textContent = products.length;
+
+    var html = "";
+    var count = 0;
+
+    for (var j = orders.length - 1; j >= 0; j--) {
+
+        if (count >= 5) {
+            break;
+        }
+
+        var order = orders[j];
+
+        html +=
+            "<tr>" +
+                "<td>#GM-" + order.id + "</td>" +
+                "<td>" + escapeHTML(order.customerName) + "</td>" +
+                "<td>" + formatMoney(order.total) + "</td>" +
+                '<td><span class="status-badge">' + escapeHTML(order.status) + '</span></td>' +
+            "</tr>";
+
+        count++;
+    }
+
+    if (orders.length == 0) {
+        html = '<tr><td colspan="4" class="empty-state">No recent orders.</td></tr>';
+    }
+
+    getElement("recentOrdersTable").innerHTML = html;
+}
 
 
 

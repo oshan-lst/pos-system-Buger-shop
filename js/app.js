@@ -42,3 +42,80 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 //main function 
+
+//gobal varible
+var products = [];
+var customers = [];
+var orders = [];
+var cart = [];
+
+var selectedCategory = "All";
+var toastTimer = null;
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    loadCustomers();
+    loadOrders();
+    loadProducts();
+
+    updateClock();
+
+    setInterval(function() {
+        updateClock();
+    }, 60000);
+
+});
+
+function getElement(id) {
+    return document.getElementById(id);
+}
+
+function formatMoney(amount) {
+    return "Rs. " + Number(amount).toLocaleString("en-LK", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+}
+
+function escapeHTML(value) {
+
+    var text = String(value);
+
+    text = text.replace(/&/g, "&amp;");
+    text = text.replace(/</g, "&lt;");
+    text = text.replace(/>/g, "&gt;");
+    text = text.replace(/"/g, "&quot;");
+    text = text.replace(/'/g, "&#39;");
+
+    return text;
+}
+
+function showToast(message) {
+
+    var toast = getElement("toastMessage");
+
+    toast.textContent = message;
+    toast.classList.add("show");
+
+    if (toastTimer != null) {
+        clearTimeout(toastTimer);
+    }
+
+    toastTimer = setTimeout(function() {
+        toast.classList.remove("show");
+    }, 3000);
+}
+
+//update clock
+function updateClock() {
+
+    var now = new Date();
+
+    getElement("currentDate").textContent =
+        now.toLocaleDateString("en-LK", {
+            weekday: "short",
+            year: "numeric",
+            month: "short",
+            day: "numeric"
+        });
+}

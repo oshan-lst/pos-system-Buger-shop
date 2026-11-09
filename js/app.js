@@ -1,7 +1,5 @@
 console.log("welcome buger pos System");
 
-
-
 //dark & light mood chnege funtion
 function toggleTheme() {
     var body = document.body;
@@ -42,3 +40,5 @@ function loadTheme() {
 document.addEventListener("DOMContentLoaded", function () {
     loadTheme();
 });
+
+//main function 
